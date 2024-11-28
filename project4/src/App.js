@@ -33,33 +33,42 @@ function App() {
 
   return (
     <div className="App">
+      <h1>Add a new password</h1>
       <form action="http://localhost/projects/project4/project4/src/addpassword.php" method="GET">
-        <label for="Website">Website:</label><br/>
-        <input type="text" name="Website" required/><br/>
-        <label for="Username">Username:</label><br/>
-        <input type="text" name="Username" required/><br/>
-        <label for="Password">Password:</label><br/>
-        <input type="text" name="Password" value={inputValue} onChange={handleInputChange} required/><br/><br/>
-        <form>
-          <label for="length">Length</label><br/>
-          <input type="range" min="8" max="20" id="length" value={value} onChange={(e) => setValue(e.target.value)}/> {value} <br/>
+        <div class="inputs">
+          <label for="Website">Website: </label><br/>
+          <input type="text" name="Website" required class="mainpageinputs"/><br/><br/>
+          <label for="Username">Username: </label><br/>
+          <input type="text" name="Username" required class="mainpageinputs"/><br/><br/>
+          <label for="Password">Password: </label><br/>
+          <input type="text" name="Password" value={inputValue} onChange={handleInputChange} required class="mainpageinputs"/><br/>
+        </div>
+        <br/>
+        <div class="tips">
+          Your password should have:
+          {inputValue.length < 8 ? (<li class="bad">At least 8 characters</li>) : (<li class="good">At least 8 characters</li>)}
+          {checkInt(inputValue) === false ? (<li class="bad">Numbers</li>) : (<li class="good">Numbers</li>)}
+          {checkLower(inputValue) === false ? (<li class="bad">Lowercase letters</li>) : (<li class="good">Lowercase letters</li>)}
+          {checkUpper(inputValue) === false ? (<li class="bad">Uppercase letters</li>) : (<li class="good">Uppercase letters</li>)}
+          {checkSpecial(inputValue) === false ? (<li class="bad">Special characters</li>) : (<li class="good">Special characters</li>)}
+        </div>
+        <br/>
+        <form class="generator">
+          <h3><b>Password generator</b></h3>
+          <label for="length">Length:  </label>
+          <input type="range" min="8" max="28" id="length" value={value} onChange={(e) => setValue(e.target.value)}/> {value} <br/><br/>
           <input type="checkbox" id="includeNumbers" name="includeNumbers" value="&numbers"/>
-          <label for="includeNumbers">Include numbers</label><br/>
+          <label for="includeNumbers">Include numbers</label><br/><br/>
           <input type="checkbox" id="includeLower" name="includeLower" value="&lowercase"/>
-          <label for="includeLower">Include lowercase letters</label><br/>
+          <label for="includeLower">Include lowercase letters</label><br/><br/>
           <input type="checkbox" id="includeUpper" name="includeUpper" value="&uppercase"/>
-          <label for="includeUpper">Include uppercase letters</label><br/>
+          <label for="includeUpper">Include uppercase letters</label><br/><br/>
           <input type="checkbox" id="includeSpecial" name="includeSpecial" value="&special"/>
           <label for="includeSpecial">Include special characters</label><br/><br/>
-          <button type="button" onClick={handleClick}>Generate Password</button>
+          <button type="button" onClick={handleClick} class="generatepasswordbutton">Generate Password</button>
         </form>
-        {inputValue.length < 8 ? (<p>Password should have at least 8 characters ❌</p>) : (<p>Password has at least 8 characters ✔</p>)}
-        {checkInt(inputValue) === false ? (<p>Password should have numbers ❌</p>) : <p>Password has numbers ✔</p>}
-        {checkLower(inputValue) === false ? (<p>Password should have lowercase letters ❌</p>) : (<p>Password has lowercase letters ✔</p>)}
-        {checkUpper(inputValue) === false ? (<p>Password should have uppercase letters ❌</p>) : (<p>Password has uppercase letters ✔</p>)}
-        {checkSpecial(inputValue) === false ? (<p>Password should have special characters ❌</p>) : (<p>Password has special characters ✔</p>)}
-        <br/><br/><br/>
-        <input type="submit"/>
+        <br/><br/>
+        <input type="submit" class="submitbutton"/><br/>
       </form> 
     </div>
   );

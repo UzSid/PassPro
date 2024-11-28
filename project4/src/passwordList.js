@@ -43,26 +43,39 @@ function PasswordList() {
 
     return(
         <div>
+            <h1 class="title">My accounts</h1>
             {arr.map((account) => (
                 <div>
-                    <Collapsible trigger={account.Website}>
-                        <p>Username: {account.Username}</p>
-                        <Collapsible trigger="Edit username">
+                    <Collapsible trigger={<div><h2>{"⮟    "+ account.Website}</h2><hr/></div>} class="Collapsible">
+                        <p class="accountinfo"><b>Username:</b> {account.Username}</p>
+                        <p class="accountinfo"><b>Password:</b> {account.Password}</p>
+                        <Collapsible trigger={<b>{"⮟     Edit username"}</b>} class="Collapsible">
                             <form action="http://localhost/projects/project4/project4/src/editUsername.php" method="GET">
-                                <label for="newUsername">New username:</label><br/>
-                                <input type="text" name="newUsername" required/><br/>
+                                <hr/>
+                                <label for="newUsername"><b>New username:</b></label><br/>
+                                <input type="text" name="newUsername" required class="mainpageinputs"/><br/><br/>
                                 <input type="hidden" name="ID" value={account.ID}/>
-                                <input type="submit"/>
+                                <input type="submit" class="submitedit"/>
                             </form>
                         </Collapsible>
-                        <p>Password: {account.Password}</p>
-                        <Collapsible trigger="Edit password">
+                        <Collapsible trigger={<b>{"⮟     Edit password"}</b>} class="Collapsible">
                             <form action="http://localhost/projects/project4/project4/src/editPassword.php" method="GET">
-                                <label for="newPassword">New password:</label><br/>
-                                <input type="text" name="newPassword" value={inputValue} onChange={handleInputChange} required/><br/><br/>
-                                <form>
+                                <hr/>
+                                <label for="newPassword"><b>New password:</b></label><br/>
+                                <input type="text" name="newPassword" value={inputValue} onChange={handleInputChange} required class="editpageinputs"/><br/><br/>
+                                <div class="editpagetips">
+                                    Your password should have:
+                                    {inputValue.length < 8 ? (<li class="bad">At least 8 characters</li>) : (<li class="good">At least 8 characters</li>)}
+                                    {checkInt(inputValue) === false ? (<li class="bad">Numbers</li>) : (<li class="good">Numbers</li>)}
+                                    {checkLower(inputValue) === false ? (<li class="bad">Lowercase letters</li>) : (<li class="good">Lowercase letters</li>)}
+                                    {checkUpper(inputValue) === false ? (<li class="bad">Uppercase letters</li>) : (<li class="good">Uppercase letters</li>)}
+                                    {checkSpecial(inputValue) === false ? (<li class="bad">Special characters</li>) : (<li class="good">Special characters</li>)}
+                                </div>
+                                <br/>                              
+                                <form class="editpagegenerator">
+                                    <h4><b>Password generator</b></h4>
                                     <label for="length">Length</label><br/>
-                                    <input type="range" min="8" max="20" id="length" value={value} onChange={(e) => setValue(e.target.value)}/> {value} <br/>
+                                    <input type="range" min="8" max="28" id="length" value={value} onChange={(e) => setValue(e.target.value)}/> {value} <br/>
                                     <input type="checkbox" id={"includeNumbers"+account.ID} name="includeNumbers" value={account.ID}/>
                                     <label for="includeNumbers">Include numbers</label><br/>
                                     <input type="checkbox" id={"includeLower"+account.ID} name="includeLower" value={account.ID}/>
@@ -71,20 +84,15 @@ function PasswordList() {
                                     <label for="includeUpper">Include uppercase letters</label><br/>
                                     <input type="checkbox" id={"includeSpecial"+account.ID} name="includeSpecial" value={account.ID}/>
                                     <label for="includeSpecial">Include special characters</label><br/><br/>
-                                    <button type="button" onClick={() =>handleClick(account.ID)}>Generate Password</button>
+                                    <button type="button" onClick={() =>handleClick(account.ID)} class="generatepasswordbutton">Generate Password</button>
                                 </form>
-                                {inputValue.length < 8 ? (<p>Password should have at least 8 characters ❌</p>) : (<p>Password has at least 8 characters ✔</p>)}
-                                {checkInt(inputValue) === false ? (<p>Password should have numbers ❌</p>) : <p>Password has numbers ✔</p>}
-                                {checkLower(inputValue) === false ? (<p>Password should have lowercase letters ❌</p>) : (<p>Password has lowercase letters ✔</p>)}
-                                {checkUpper(inputValue) === false ? (<p>Password should have uppercase letters ❌</p>) : (<p>Password has uppercase letters ✔</p>)}
-                                {checkSpecial(inputValue) === false ? (<p>Password should have special characters ❌</p>) : (<p>Password has special characters ✔</p>)}
-                                <input type="hidden" name="ID" value={account.ID}></input>
-                                <input type="submit"/>
+                                <input type="hidden" name="ID" value={account.ID}></input> <br/>
+                                <input type="submit" class="submitedit"/>
                             </form>
                         </Collapsible>
-                        <br/><br/>
                         <button type="button" onClick={() => 
                             window.location.href = "http://localhost/projects/project4/project4/src/deletePassword.php?ID=" + account.ID}
+                            class="deletebutton"
                         >Delete</button>
                     </Collapsible>
                 </div>
